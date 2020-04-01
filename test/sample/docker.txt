@@ -1,0 +1,37 @@
+
+
+docker images
+docker pull centos
+
+docker ps -a
+docker run -it centos bash
+
+docker attach
+
+docker start
+docker stop
+
+
+
+cd ~
+mkdir -p docker/ubuntu
+cd docker/ubuntu
+echo "hello docker !" > hello.txt
+vi Dockerfile
+
+FROM ubuntu
+COPY hello.txt /tmp/hello.txt
+CMD ["cat", "/tmp/hello.txt"]
+
+docker build -t hello .
+docker images
+docker run hello
+
+docker login
+docker tag hello <USER NAME>/hello
+docker push <USER NAME>/hello
+
+削除
+docker container ls -a
+docker image prune -a
+docker images

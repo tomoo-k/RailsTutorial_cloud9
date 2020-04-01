@@ -1,0 +1,1049 @@
+------------------------------cloud9------------------------------------
+cat /proc/version
+mysql --version
+php -v
+python -V
+node -v
+ruby -v
+rails -v
+
+ec2-user:~/environment $ cat /proc/version
+Linux version 4.14.171-105.231.amzn1.x86_64 (mockbuild@koji-pdx-corp-builder-64005) (gcc version 7.2.1 20170915 (Red Hat 7.2.1-2) (GCC)) #1 SMP Thu Feb 27 23:49:15 UTC 2020
+
+ec2-user:~/environment $ mysql --version
+mysql  Ver 14.14 Distrib 5.5.62, for Linux (x86_64) using readline 5.1
+
+ec2-user:~/environment $ php -v
+PHP 5.6.40 (cli) (built: Oct 31 2019 20:35:16)
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+    with Xdebug v2.5.5, Copyright (c) 2002-2017, by Derick Rethans
+
+ec2-user:~/environment $ python -V
+Python 3.6.10
+
+ec2-user:~/environment $ node -v
+v10.19.0
+
+ec2-user:~/environment $ ruby -v
+ruby 2.6.3p62 (2019-04-16 revision 67580) [x86_64-linux]
+
+ec2-user:~/environment $ rails -v
+Rails 5.0.0
+
+
+sudo yum -y update
+date
+sudo vi /etc/sysconfig/clock
+  ZONE="Asia/Tokyo"
+  UTC=true
+sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+sudo reboot
+date
+
+
+mysql --version
+sudo yum -y remove mysql-config mysql55-server mysql55-libs mysql55
+sudo yum -y install mysql57-server mysql57
+sudo vi /etc/my.cnf
+
+  [mysqld]
+  character-set-server=utf8mb4
+
+  [client]
+  default-character-set=utf8mb4
+
+sudo service mysqld start
+sudo mysql_upgrade -u root --force
+sudo service mysqld restart
+sudo chkconfig mysqld on
+mysql --version
+mysql -u root
+quit
+
+
+
+
+----------rails---------
+
+cd ~/environment
+rails _5.1.6_ new sample_app
+cd sample_app/
+
+
+Gemfile
+
+source 'https://rubygems.org'
+
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.1.6'
+# Use sqlite3 as the database for Active Record
+
+
+#bootstrap
+gem 'bootstrap-sass', '3.3.7'
+#password hash
+gem 'bcrypt',         '3.1.12'
+#faker
+gem 'faker',          '1.7.3'
+#pagenate
+gem 'will_paginate',           '3.1.6'
+gem 'bootstrap-will_paginate', '1.0.0'
+
+
+gem 'sqlite3', '1.3.13'
+# Use Puma as the app server
+
+
+gem 'puma',         '3.9.1'
+# Use SCSS for stylesheets
+gem 'sass-rails',   '5.0.6'
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier',     '3.2.0'
+# See https://github.com/rails/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
+
+# Use CoffeeScript for .coffee assets and views
+gem 'coffee-rails', '4.2.2'
+# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
+gem 'turbolinks',   '5.0.1'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder',     '2.7.0'
+# Use Redis adapter to run Action Cable in production
+# gem 'redis', '~> 4.0'
+# Use ActiveModel has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
+
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+
+gem 'jquery-rails', '4.3.1'
+
+group :development, :test do
+  gem 'sqlite3', '1.3.13'
+  gem 'byebug',  '9.0.6', platform: :mri
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '~> 2.13'
+  gem 'selenium-webdriver'
+end
+
+group :development do
+  gem 'web-console',           '3.5.1'
+  gem 'listen',                '3.1.5'
+  gem 'spring',                '2.0.2'
+  gem 'spring-watcher-listen', '2.0.1'
+  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
+  # gem 'web-console', '>= 3.3.0'
+  # gem 'listen', '>= 3.0.5', '< 3.2'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # gem 'spring'
+  # gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  gem 'rails-controller-testing', '1.0.2'
+  gem 'minitest',                 '5.10.3'
+  gem 'minitest-reporters',       '1.1.14'
+  gem 'guard',                    '2.13.0'
+  gem 'guard-minitest',           '2.4.4'
+end
+
+group :production do
+  gem 'pg', '0.20.0'
+end
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+
+
+bundle install --without production
+
+bundle update
+
+
+git config --global user.name "T K"
+git config --global user.email "t****.*******@gmail.com"
+git config --global color.ui true
+git config -l
+
+git init
+git add -A
+git commit -m "Initialize repository"
+
+git remote add origin https://github.com/t*******/***********.git
+git config -l
+git push -u origin master
+
+
+
+--------------git--------------
+
+git config -l
+
+user.name=T K
+user.email=t****.*******@gmail.com
+color.ui=true
+alias.st=status
+alias.co=checkout
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+
+
+git config --global core.autoCRLF false
+rm -rf .git
+git remote rm origin
+git remote set-url origin URL
+
+
+cd /home/centos/karicari
+git init
+
+vim .gitignore
+cat .gitignore
+
+git status
+
+git config -l
+git add .
+git commit -m
+
+git remote add origin https://github.com/t*******/***********.git
+git config -l
+git push -u origin master
+
+https://github.com/t******/********
+アカウント t******
+メール  tXXXX.XXXXXXXX@gmail.com
+
+
+
+------------------------------------------------------------
+
+session[:user_id] = user.id
+上のコードを実行すると、ユーザーのブラウザ内の一時cookiesに暗号化済みのユーザーIDが自動で作成されます。
+この後のページで、session[:user_id]を使ってユーザーIDを元通りに取り出すことができます。
+一方、cookiesメソッド (9.1) とは対照的に、sessionメソッドで作成された一時cookiesは、ブラウザを閉じた瞬間に有効期限が終了します。
+
+
+
+-----------------CentOS7-----------------------
+
+ssh -i samurai/PHP/PHPstudy.pem centos@18.176.48.5
+ssh -i samurai/PHP/PHPstudy.pem centos@18.178.180.55
+
+バージョン確認
+uname -a
+Linux ip-172-30-0-206.ap-northeast-1.compute.internal 3.10.0-957.1.3.el7.x86_64 #1 SMP Thu Nov 29 14:49:43 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+
+cat /etc/redhat-release
+CentOS Linux release 7.6.1810 (Core)
+
+cat /etc/os-release
+
+
+サービス確認
+systemctl list-units --type service --all
+
+プロセス確認
+
+インストール確認
+sudo yum list installed | more
+sudo yum list
+
+sudo yum update
+cat /etc/redhat-release
+CentOS Linux release 7.7.1908 (Core)
+
+
+— https —
+yum list installed | grep http
+sudo yum -y install httpd
+yum list installed | grep http
+httpd.x86_64        2.4.6-90.el7.centos         @base
+
+sudo systemctl start httpd
+sudo systemctl status httpd
+sudo systemctl enable httpd
+
+
+—  mariadb >- mysql 5.7 —
+
+sudo yum remove mariadb-libs
+yum localinstall http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+
+sudo yum -y install mysql-community-server
+sudo yum -y install mysql-community-devel
+yum list installed | grep mysql
+
+mysql-community-client.x86_64      5.7.29-1.el7               @mysql57-community
+mysql-community-common.x86_64      5.7.29-1.el7               @mysql57-community
+mysql-community-devel.x86_64       5.7.29-1.el7               @mysql57-community
+mysql-community-libs.x86_64        5.7.29-1.el7               @mysql57-community
+mysql-community-server.x86_64      5.7.29-1.el7               @mysql57-community
+mysql57-community-release.noarch   el7-7                      @/mysql57-community-release-el7-7.noarch
+
+
+sudo systemctl status mysqld
+sudo systemctl enable mysqld
+sudo systemctl start mysqld
+systemctl status mysqld
+
+
+sudo systemctl stop mysqld
+sudo systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+sudo systemctl start mysqld
+sudo systemctl status mysqld
+
+
+------------------------
+mysql -u root
+
+update mysql.user set authentication_string = PASSWORD('') where User = 'root' and host = 'localhost';
+flush privileges;
+quit
+
+sudo systemctl stop mysqld
+sudo systemctl unset-environment MYSQLD_OPTS
+sudo systemctl start mysqld
+
+
+set password for root@localhost=password('**********');
+
+grant all on testanpi.* to dbuser@localhost identified by '**********';
+
+CREATE DATABASE testanpi;
+
+CREATE TABLE anpi(
+no INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+comment VARCHAR(255) NOT NULL,
+created DATETIME
+);
+-------------------------
+
+
+—— other —
+curl --version
+
+
+— vsftpd —
+sudo yum list installed | grep vsftpd
+sudo yum list | grep vsftpd
+sudo yum -y install vsftpd
+
+sudo systemctl start vsftpd
+sudo systemctl status vsftpd
+sudo systemctl enable vsftpd
+
+cat /proc/sys/net/ipv4/ip_local_port_range
+
+sudo cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.org
+sudo vi /etc/vsftpd/vsftpd.conf
+
+anonymous_enable=NO
+pasv_enable=YES
+pasv_min_port=60000
+pasv_max_port=60100
+
+sudo systemctl restart vsftpd
+
+
+———— other ————————
+
+sudo yum -y install zip
+sudo yum -y install git
+
+date
+2019年 10月 30日 水曜日 11:46:55 UTC
+sudo cp -p /etc/localtime /etc/localtime.org
+sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+Date
+2019年 10月 30日 水曜日 20:47:32 JST
+
+
+————————backup—————————
+
+sudo yum -y install vim
+
+sudo getenforce
+sudo cp -p /etc/selinux/config /etc/selinux/config.org
+sudo vi /etc/selinux/config
+sudo reboot
+sudo getenforce
+
+sudo yum -y install unzip
+
+
+
+
+------------------------git----------------------------
+
+https://git-scm.com/book/ja/v2/Git%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC-%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97
+
+
+git --version
+git version 1.8.3.1
+
+sudo yum update git
+
+sudo yum list installed | grep git
+sudo yum remove git
+
+sudo yum -y install curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker
+sudo yum remove git
+
+sudo yum list installed | grep wget
+sudo yum list | grep wget
+sudo yum -y install wget
+sudo yum list installed | grep wget
+
+sudo yum -y install gcc
+
+cd /usr/local/src/
+sudo wget https://www.kernel.org/pub/software/scm/git/git-2.24.1.tar.gz
+sudo tar xzvf git-2.24.1.tar.gz
+
+cd git-2.24.1
+sudo make prefix=/usr/local all
+sudo make prefix=/usr/local install
+source /etc/profile
+
+git --version
+
+--------------------
+sudo yum list installed | grep git
+sudo yum list | grep git
+sudo yum -y install git
+
+sudo systemctl start git
+sudo systemctl status git
+sudo systemctl enable git
+-------------------------
+
+
+git config --global user.name "T K"
+git config --global user.email "t****.*******@gmail.com"
+git config --global color.ui true
+git config -l
+git config --list
+
+git help --config
+
+mkdir mygit
+cd mygit/
+git init
+
+vim index.html
+git add index.html
+git commit
+
+git log
+git log --oneline
+git log --stat
+
+vim index.html
+git status
+
+git restore index.html
+git status
+git diff
+
+git branch
+git branch hoge
+git checkout hoge
+git checkout master
+git merge hoge
+git branch -d hoge
+
+git merge hoge
+
+git config --global alias.co checkout
+git config --global alias.st status
+
+[centos@ip-172-30-0-207 mygit]$ git config -l
+
+user.name=T K
+user.email=t****.*******@gmail.combranch -d
+color.ui=true
+alias.st=status
+alias.co=checkout
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+
+https://github.com/t******/Learning.git
+git@github.com:t******/Learning.git
+
+
+
+
+git config --global core.autoCRLF false
+rm -rf .git
+git remote rm origin
+git remote set-url origin URL
+
+
+cd /home/centos/karicari
+git init
+
+vim .gitignore
+
+src/Command
+src/Console
+src/View
+src/src
+
+templates/cell
+templates/email
+templates/Error
+templates/Pages
+templates/templates
+
+webroot/favicon.ico
+webroot/font
+webroot/index.php
+webroot/webroot
+
+cat .gitignore
+
+
+
+
+cd /home/centos/karicari
+
+git status
+
+cp -p -r /var/www/html/cakephp/karicari/src/Controller/* /home/centos/karicari/src/Controller/
+cp -p -r /var/www/html/cakephp/karicari/templates/element/* /home/centos/karicari/templates/element/
+cp -p -r /var/www/html/cakephp/karicari/webroot/css/* /home/centos/karicari/webroot/css/
+cp -p -r /var/www/html/cakephp/karicari/templates/layout/* /home/centos/karicari/templates/layout/
+
+git status
+
+git config -l
+git add .
+git commit -m
+
+git push -u origin master
+
+git remote add origin https://github.com/t******/*******.git
+git config -l
+git push -u origin master
+
+https://github.com/t******/********
+アカウント t******
+メール  tXXXX.XXXXXXXX@gmail.com
+
+https://github.com/t*******/***********.git
+
+
+
+------------------------ruby-----------------------------
+
+ssh -i samurai/PHP/PHPstudy.pem centos@18.178.180.55
+
+
+https://qiita.com/Umibows/items/db4509969cd3725ff310
+
+rbenv (ruby の管理)
+
+sudo yum -y remove ruby
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+mkdir -p ~/.rbenv/plugins
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+cd ~/.rbenv/plugins/ruby-build
+sudo ./install.sh
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+
+
+------------------
+./rbenv install -l
+-----------------
+
+
+ruby
+ここでは2.6.5のバージョンを入れた
+sudo yum -y install bzip2
+
+sudo yum install -y readline-devel
+cd /home/centos/.rbenv/bin/
+./rbenv install 2.6.5
+./rbenv rehash
+./rbenv global 2.6.5
+source ~/.bash_profile
+ruby -v
+
+
+rails
+5.1.3を入れた
+
+./rbenv exec gem install rails -v 5.1.3
+./rbenv rehash
+source ~/.bash_profile
+
+
+node入れる
+入れないとrails sが失敗する。
+nvmよりnodebrewがいいんじゃないかな。
+cd ~/
+curl -L git.io/nodebrew | perl - setup
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
+source ~/.bash_profile
+nodebrew install-binary v11.0.0
+nodebrew install v11.0.0
+nodebrew use v11.0.0
+source ~/.bash_profile
+
+
+gcc 古いのでアップデート
+sudo yum install centos-release-scl
+sudo yum install scl-utils
+sudo yum install devtoolset-7-gcc devtoolset-7-gcc-c++ devtoolset-7-binutils
+scl enable devtoolset-7 bash
+
+
+cd ~/
+mkdir test-app
+cd test-app
+bundle init
+
+vi Gemfile
+# frozen_string_literal: true
+source "https://rubygems.org"
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+ gem "rails"
+
+
+bundle install --path vendor/bundle
+
+bundle exec rails new . -B -d mysql --skip-test
+
+bundle install
+gem update
+
+gem install sassc -v '2.2.1' --source 'https://rubygems.org/'
+
+
+
+bundle install
+
+
+
+bundle exec rake db:create
+
+
+
+sudo systemctl status mysqld
+sudo systemctl enable mysqld
+sudo systemctl start mysqld
+systemctl status mysqld
+
+
+
+
+-------------------------------------
+cd ~/
+mkdir test-app3
+cd test-app3
+rails new . -B -d mysql --skip-test
+
+bundle install
+
+sudo cat /var/log/mysqld.log
+Vxl(:z-E/9ue
+
+
+
+mysql_secure_installation
+
+***********
+
+# パスワードのセキュリティーポリシーが緩い場合は以下のように言われます。
+The 'validate_password' plugin is installed on the server.
+    :
+    :
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : y       # Yes (今思えばNoで良かったかも)
+New password:                     # とりあえず新パスワード
+Re-enter new password:            # とりあえず再入力
+
+Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) : y
+# 匿名ユーザを削除します。
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+
+# Rootのリモート接続を禁止します。
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : y
+
+# テスト用のデータベースを削除します。
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : y
+　　
+# この設定をすぐにリロードします。
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+
+
+mysql -u root -p
+
+bundle exec rake db:create
+sudo systemctl restart mysqld
+
+rails s -b 172.30.0.206 -d
+cat tmp/pids/server.pid
+kill -9
+tail log/development.log
+
+-------------------------------------------
+cd ~/
+mkdir test-app4
+cd test-app4
+rails new . -B -d mysql --skip-test
+
+bundle install
+bundle exec rake db:create
+sudo systemctl restart mysqld
+
+rails s -b 172.30.0.206 -d
+cat tmp/pids/server.pid
+kill -9
+tail log/development.log
+
+rails g scaffold Memo title:string body:text
+rails db:migrate
+
+sudo systemctl restart mysqld
+
+
+----------------------------------------------
+
+cd ~/
+mkdir test-app5
+cd test-app5
+rails new . -B -d mysql --skip-test
+bundle install
+
+database.yml
+  password: ***********
+  host: localhost
+
+rake db:create
+#sudo systemctl restart mysqld
+
+rails s -b 172.30.0.206 -d
+#cat tmp/pids/server.pid
+#kill -9
+#tail log/development.log
+
+rails g scaffold Memo title:string body:text
+rails db:migrate
+
+
+
+-------------------------------------------------
+rails g model Post title:string body:text
+rails db:migrate
+
+rails c
+p = Post.new(title: 'title 1', body: 'body 1')
+p.save
+
+Post.create(title: 'title 2',body: 'body 2')
+Post.all
+
+rails db
+
+rails db:migrate:reset
+rails db:seed
+
+rails g controller Posts
+
+rails g model Comment body:string post:references
+rails db:migrate
+rails g controller Comments
+
+
+
+
+----------------  rails tutorial -------------------
+
+cd ~/
+mkdir test-app5
+cd test-app5
+rails new sample_app -d mysql
+bundle install
+
+git init
+git add -A
+git commit -m "Initialize repository"
+
+
+database.yml
+  password: ***********
+  host: localhost
+
+rake db:create
+#sudo systemctl restart mysqld
+
+rails s -b 172.30.0.206 -d
+#cat tmp/pids/server.pid
+#kill -9
+#tail log/development.log
+
+rails g scaffold Memo title:string body:text
+rails db:migrate
+
+----------------  Active Record -------------------
+
+create table users (
+  id integer primary key,
+  name text,
+  age integer,
+  created_at,
+  updated_at
+);
+
+
+User.delete_all
+
+User.create(name: "tanaka", age: 19)
+User.create(name: "takahashi", age: 25)
+User.create(name: "hayashi", age: 31)
+User.create(name: "mizutani", age: 28)
+User.create(name: "otsuka", age: 35)
+
+pp User.all
+pp User.select("id, name, age").all
+pp User.select("id, name, age").first
+pp User.select("id, name, age").last
+pp User.select("id, name, age").first(3)
+
+pp User.select("id, name, age").find(3)
+pp User.select("id, name, age").find_by(name: "tanaka")
+pp User.select("id, name, age").find_by name: "tanaka"
+pp User.select("id, name, age").find_by_name "tanaka"
+pp User.select("id, name, age").find_by_name("tanaka")
+
+pp User.select("id, name, age").find_by_name("kiriya")
+pp User.select("id, name, age").find_by_name!("kiriya")
+
+# where
+
+pp User.select("id, name, age").where(age: 20..29)
+pp User.select("id, name, age").where(age: [19, 31])
+
+# AND
+
+pp User.select("id, name, age").where("age >= 20").where("age < 30")
+pp User.select("id, name, age").where("age >= 20 and age < 30")
+
+# OR
+
+pp User.select("id, name, age").where("age <= 20 or age >= 30")
+pp User.select("id, name, age").where("age <= 20").or(User.select("id, name, age").where("age >= 30"))
+pp User.where("age <= 20").or(User.where("age >= 30")).select("id, name, age")
+
+# NOT
+
+pp User.select("id, name, age").where.not(id: 3)
+
+
+min = 20
+max = 30
+
+pp User.select("id, name, age").where("age >= ? and age < ?", min, max)
+pp User.select("id, name, age").where("age >= :min and age < :max", {min: min, max: max})
+
+#like
+pp User.select("id, name, age").where("name like ?", "%i")
+
+
+# order
+pp User.select("id, name, age").order("age")
+pp User.select("id, name, age").order(:age)
+pp User.select("id, name, age").order("age desc")
+pp User.select("id, name, age").order(age: :desc)
+
+# limit,offset
+pp User.select("id, name, age").order(:age).limit(3)
+pp User.select("id, name, age").order(:age).limit(3).offset(1)
+
+
+# find_or_create_by
+
+# user = User.find_or_create_by(name: "hayashi")
+# pp user
+
+# user = User.find_or_create_by(name: "yokota")
+# pp user
+user = User.find_or_create_by(name: "yokota") do |u|
+  u.age = 18
+end
+pp user
+
+
+
+# update
+
+# User.update(1, age: 50)
+# User.where(name: "tanaka").update(age: 60)
+# User.where(name: "tanaka").update(age: 70, name: "taguchi")
+# User.where("age >= 20").update(age: 80)
+
+# update_all
+
+User.where("age >= 20").update_all("age = age + 2")
+
+pp User.select("id, name, age").all
+
+
+# delete: 単機能だけど高速
+# - delete
+# - delete_all
+# destroy: 高機能だけど低速
+# - destroy
+# - destroy_all
+
+# User.delete(1)
+User.where("age >= 25").delete_all
+pp User.select("id, name, age").all
+
+
+
+-----------------------seiki----------------------------
+
+# メタ文字
+
+「.」 → 改行を除く任意の一文字
+\ で特殊文字をエスケープ
+
+# 文字種
+
+「\d」 → 0-9、デジタル
+「\D」 → \d以外
+「\w」 → a-z、A-Z、0-9、_、ワード
+「\W」 → \w以外
+「\s」 → スペース、タブ、改行など
+「\S」 → \s以外
+
+# 量指定子
+
+「{n}」 → n個
+「{min,max}」 → min以上、max以下
+「{min,}」 → min以上
+「?」 → {0,1}
+「+」 → {1,}
+「*」 → {0,}
+
+# アンカー
+
+- 「^」 → 行の先頭
+- 「$」 → 行の末尾
+- 「\b」 → 単語の境界
+
+# 選択子
+
+「abc|123」 → abc or 123
+(net|com) → .net or .com
+(b|h|c)at →  bat hat cat
+[bhc]at →  bat hat cat
+
+
+# 文字クラス
+
+- 「[abc]」 → a、b、cのどれか一文字
+
+# 文字クラス内で使えるメタ文字
+
+- 「^」 → 否定（[の直後のみ）
+- 「-」 → 範囲
+
+
+# 改行とタブ
+
+- 「\t」 → タブ
+- 「\r\n」 → 改行（windows）
+- 「\r」 → 改行（v9までのmacOS）
+- 「\n」 → 改行（unix、v10以降のmacOS）
+- 「\r\n|\r|\n」 → 改行（すべて）
+
+# キャプチャ
+
+- ()
+  - $1, $2, ...
+
+-----------------------------------------------------------------------
+
+
+--------------------vim--------------------------
+
+上   下   左   右        にはカーソルキー(矢印キー)で動かせますが、
+「j」「k」「h」「l(エル)」で移動
+
+gg  一番上移動
+G  一番下移動
+CTRL+f / CTRL + b  一画面移動、一画面前移動
+w / b  単語前移動、単語後ろ移動
+cw  単語置換
+
+^  行頭
+$ 行末
+
+f 対象の文字まで飛ぶ
+% 対象のカッコまで飛ぶ
+
+v 文字単位のビジュアルモード
+V 行単位
+gg v G 全選択
+
+x カット
+y コピー
+p ペースト
+
+/ 検索 次へn 前へN
+* 現在カーソルがあるワードを下検索
+# 現在カーソルがあるワードを上検索
+
+:s/i/I/ 一文字のiをIに置換
+:s/i/I/g 行内全てのiをIに置換
+:%s/i/I/g ファイル内全体のiをIに置換
+:%s/i/I/gc ファイル内全体のiをIに置換（確認付き）
+
+u undo
+Ctrl＋r uの取消し
+
+:sp 縦分割
+:vs 横分割
+Crtl+w w ウィンドウ移動
+
+:tabnew 新規タブ
+:tabe 新規タブ＋ファイル名指定
+gt タブ間移動
+:tabclose
+
+. 直前を繰り返す
+
+= インデント調整
+Ctrl+n 補完機能
+
+
+テキストオブジェクト
+cit でタグの中のテキストを編集
+c/d/y change/delete/コピー
+i/a 中身か全てか
+t/"/)/]
+
+
+:set number nonumber
+:syntax on off
+:set tabstop 4 or 8
+:set ignorecase noignorecase 大文字小文字区別なし

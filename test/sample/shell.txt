@@ -1,0 +1,244 @@
+#!/bin/bash
+
+#変数
+# name = "taguchi"
+# name="taguchi"
+readonly name="fkoji"
+name="dotinstall"
+
+echo "morning $name"
+echo "hello $name"
+echo "bye ${name}san"
+echo 'bye ${name}san'
+
+
+#特殊変数
+# $1, $2, ...
+# echo "hello $1"
+
+# ./hello a aa aaa
+echo $0 # ./hello
+echo $# # 3
+echo $@ # $* a aa aaa
+
+
+#ユーザから値を入力
+read -p "Pick 3 colors: " c1 c2 c3
+echo $c1
+echo $c2
+echo $c3
+
+
+# 配列
+
+colors=(red blue pink)
+# echo ${colors[0]} # red
+# echo ${colors[1]} # blue
+# echo ${colors[2]} # pink
+# echo ${colors[@]} # red blue pink
+# echo ${#colors[@]} # 3
+
+colors[1]=silver
+colors+=(green orange)
+echo ${colors[@]}
+
+
+#数値計算
+# echo 5+2
+# echo `expr 5 + 2`
+# echo $((5 + 2))
+
+n=5
+# (($n=$n+5))
+((n=n+5))
+# echo $n
+
+# + - * / % ** ++ --
+
+echo $((10 / 3)) # 3
+
+
+# if
+read -p "Name? " name
+if [ "$name" = "taguchi" ]; then
+  echo "welcome"
+elif [ "$name" = "fkoji" ]; then
+  echo "welcome, too"
+else
+  echo "you are not allowed"
+fi
+
+
+#文字列比較
+# [[]]
+# (())
+
+read -p "Name? " name
+# = == != -z =~
+# if [[ $name = "taguchi" ]]; then
+#   echo "welcome"
+# fi
+
+# if [[ -z $name ]]; then
+#   echo "empty ..."
+# fi
+# 空文字か確認する
+
+if [[ $name =~ ^t ]]; then
+  echo "starts with t..."
+fi
+# 正規表現でtで始まる？
+
+#ファイル・数値比較
+# && || !
+# -e -f -d
+# if [[ -f $0 ]]; then
+#   echo "file exists ..."
+# fi
+# ファイル名に合致するので真
+
+# if [[ -d $0 ]]; then
+#   echo "dir exists ..."
+# fi
+# ディレクトリでは無いので偽
+
+# == != > >= < <=
+read -p "Number? " n
+if ((n > 10)); then
+  echo "bigger than 10"
+fi
+
+
+# for
+
+# for i in 1 2 3 4 5
+# for i in {1..5}; do
+#   echo $i
+# done
+
+# for ((i=1; i<=5; i++)); do
+#   echo $i
+# done
+
+# colors=(red blue pink)
+# for color in ${colors[@]}; do
+#   echo $color
+# done
+
+# for item in `date`; do
+for item in $(date); do
+  echo $item
+done
+
+
+
+# while
+# continue, break
+
+# i=0
+# while ((i < 10)); do
+#   ((i++))
+#   echo $i
+# done
+
+# i=0
+# while ((i < 10)); do
+#   ((i++))
+#   if ((i == 4)); then
+#     continue
+#   fi
+#   if ((i == 8)); then
+#     break
+#   fi
+#   echo $i
+# done
+
+while :
+do
+  read -p "Command? " cmd
+  if [[ $cmd == "quit" ]]; then
+    break
+  else
+    echo "$cmd"
+  fi
+done
+
+
+#ファイル操作
+i=1
+while read line; do
+  echo $i "$line"
+  ((i++))
+# done < colors.txt
+done
+
+
+# case
+
+read -p "Signal color? " color
+case "$color" in
+  red)
+    echo "stop"
+    ;;
+  blue|green)
+    echo "go"
+    ;;
+  yellow)
+    echo "caution"
+    ;;
+  *)
+    echo "wrong signal"
+esac
+
+
+# select
+
+select color in red blue yellow green; do
+  case "$color" in
+    red)
+      echo "stop"
+      ;;
+    blue|green)
+      echo "go"
+      ;;
+    yellow)
+      echo "caution"
+      ;;
+    *)
+      echo "wrong signal"
+      break
+  esac
+done
+
+
+# 関数
+
+# function hello() {
+hello() {
+  # echo "hello ..."
+  # echo "hello ... $1"
+
+  if [[ $1 == "taguchi" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# hello
+# hello
+# hello taguchi
+# hello fkoji
+hello taguchi; echo $? # 0
+hello fkoji; echo $? # 1
+
+
+# スコープ
+hello() {
+  # name="taguchi"
+  local name="taguchi"
+  echo "hello ..."
+}
+
+hello
+echo $name # taguchi
