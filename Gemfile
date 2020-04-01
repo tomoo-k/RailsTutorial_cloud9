@@ -12,7 +12,7 @@ gem 'rails', '~> 5.1.6'
 
 
 #bootstrap
-gem 'bootstrap-sass', '3.3.7'
+gem 'bootstrap-sass', '3.4.1'
 #password hash
 gem 'bcrypt',         '3.1.12'
 #faker
